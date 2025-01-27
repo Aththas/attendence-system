@@ -26,7 +26,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         auth -> auth
                                 .requestMatchers("/api/v1/attendance-system/auth/**").permitAll()
-//                                .requestMatchers("/api/v1/attendance-system/home/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(

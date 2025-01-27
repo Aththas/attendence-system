@@ -93,7 +93,10 @@ body
 	position: relative;
 	width: 100%;
 }
-.login .inputBx input 
+.login .inputBx label{
+	color: white;
+}
+.login .inputBx input, .login .inputBx button
 {
 	position: relative;
 	width: 100%;
@@ -106,7 +109,7 @@ body
 	box-shadow: none;
 	outline: none;
 }
-.login .inputBx input[type="submit"]
+.login .inputBx button, .login .inputBx input[type='submit']
 {
 	width: 100%;
 	background: #0078ff;

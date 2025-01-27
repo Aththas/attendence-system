@@ -1,9 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title></title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+	<title>Login Page</title>
 </head>
 <body>
-
+	<form id="loginForm">
+		<div class="square">
+			<i style="--clr:#00B4EB;"></i>
+			<i style="--clr:#0056A2;"></i>
+			<i style="--clr:#50B748;"></i>
+			<div class="login">
+				<h2>Login</h2>
+				<div class="inputBx">
+					<input type="text" placeholder="Username" id="username" name="username" required>
+				</div>
+				<div class="inputBx">
+					<input type="password" placeholder="Password" id="password" name="password" required>
+				</div>
+				<div class="inputBx">
+					<input type="submit" value="Sign in">
+				</div>
+				<div class="links">
+					<a href="#">Forget Password</a>
+					<a href="#">Signup</a>
+				</div>
+			</div>
+		</div>
+	</form>
 </body>
 </html>

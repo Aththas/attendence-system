@@ -2,8 +2,11 @@ package com._axisLabs.attendence_system.auth.service.impl;
 
 import com._axisLabs.attendence_system.auth.dto.ApiResponse;
 import com._axisLabs.attendence_system.auth.dto.requestDto.AuthRequest;
+import com._axisLabs.attendence_system.auth.dto.responseDto.AuthResponse;
 import com._axisLabs.attendence_system.auth.service.AuthService;
+import com._axisLabs.attendence_system.config.JwtService;
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -18,7 +21,10 @@ import java.util.Map;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
+
+    private final JwtService jwtService;
     @Value("${user.file.path}")
     private String FILE_PATH;
 
@@ -29,7 +35,7 @@ public class AuthServiceImpl implements AuthService {
         this.userDetails = loadUserDetailsFromFile();
     }
 
-    private Map<String, String> loadUserDetailsFromFile() {
+    public Map<String, String> loadUserDetailsFromFile() {
         Map<String, String> userDataMap = new HashMap<>();
 
         try(BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
@@ -53,9 +59,14 @@ public class AuthServiceImpl implements AuthService {
 
         try{
             if(userDetails.containsKey(username) && userDetails.get(username).equals(password)){
+                final String accessToken = jwtService.generateToken(authRequest);
+
+                AuthResponse authResponse = new AuthResponse();
+                authResponse.setAccessToken(accessToken);
+
                 log.info("Authentication Success for user: " + username);
                 return new ResponseEntity<>(
-                        new ApiResponse<>(true, null, "Authentication Success", null)
+                        new ApiResponse<>(true, authResponse, "Authentication Success", null)
                         , HttpStatus.OK);
             }
 

@@ -31,5 +31,38 @@
 			</div>
 		</div>
 	</form>
+		<script>
+        document.getElementById('loginForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const response = await fetch('http://localhost:8080/api/v1/attendance-system/auth', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+		        if(data.success){
+		        	const accessToken = data.data.accessToken;
+	        		sessionStorage.setItem('accessToken', accessToken);
+	        		window.location.href = "index.html";
+	                // alert('Login successful!');
+    	            // console.log(sessionStorage.getItem('accessToken'));
+            	}else{
+            		const errorMessage = data.message || 'Login Failed!';
+                	alert(errorMessage);
+            	}
+            } else {
+            	const errorData = await response.json();
+            	const errorMessage = errorData.message || 'Network Error!';
+                alert(errorMessage);
+            }
+        });
+    </script>
 </body>
 </html>

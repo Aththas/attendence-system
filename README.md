@@ -39,6 +39,9 @@ Before you begin, make sure you have the following installed:
 ##### 2. Setup frontend server on port 3000
     http-server -p 3000
 
+##### 3. Access the applicatio via below link
+    http://127.0.0.1:3000
+
 ## To setup backend
 
 ##### 1. Go to the Server folder

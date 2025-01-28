@@ -8,13 +8,68 @@
 	<title>Home Page</title>
 </head>
 <body>
+	<script>
+
+		if (!sessionStorage.getItem('accessToken')) {
+			window.location.href = 'login.html';
+		}
+
+		async function fetchUserData(){
+
+			const accessToken = sessionStorage.getItem('accessToken');
+
+			try{
+				
+				const response = await fetch('http://localhost:8080/api/v1/attendance-system/home', {
+					method: 'GET',
+					headers: {
+						'Authorization': `Bearer ${accessToken}`,
+						'Content-Type': 'application/json'
+					}
+				});
+
+				if(response.ok) {
+
+					const userData = await response.json();
+
+					if(userData.success){
+						document.getElementById('username').textContent = `Hi ${userData.data}`;
+    	        	}else{
+        	    		const errorMessage = userData.message || 'Username fetching Failed!';
+            	    	alert(errorMessage);
+            	    	window.location.href = 'login.html';
+            		}
+
+				}else{
+					const errorData = await response.json();
+        	    	const errorMessage = errorData.message || 'Network Error!';
+            	    alert(errorMessage);
+            	    window.location.href = 'login.html';
+				}
+			}catch(error){
+				console.error('Error fetching user name:', error);
+				alert('An error occurred. Please try again.');
+				window.location.href = 'login.html';
+			}
+		}
+		window.onload = fetchUserData;
+	</script>
+</head>
+<body>
 	<div class="login">
 		<div class="inputBx">
-			<Label> HI </Label>
+			<label id="username">Loading...</label>
 		</div>
 		<div class="inputBx">
-			<Input type="submit" value="Logout" />
+			<input type="submit" value="Logout" onclick="logout()" />
 		</div>
 	</div>
+
+	<script>
+		function logout() {
+			sessionStorage.removeItem('accessToken'); 
+			window.location.href = 'login.html';
+		}
+	</script>
 </body>
 </html>
